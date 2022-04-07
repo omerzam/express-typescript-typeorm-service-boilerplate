@@ -1,4 +1,5 @@
 import { ValidationError } from 'class-validator'
+import { ValidationError as InputValidationError } from 'express-validator'
 
 export class BaseError extends Error {
   public readonly name: string
@@ -38,6 +39,22 @@ export class ValidateError extends BaseError {
   public readonly errors: ValidationError[]
   constructor (errors: ValidationError[], description = 'Validation Error') {
     super('UNPROCESSABLE ENTITY', HttpStatusCode.UNPROCESSABLE_ENTITY, description, true)
+    this.errors = errors
+  }
+}
+
+export class InputValidateError extends BaseError {
+  public readonly errors: InputValidationError[]
+  constructor (
+    errors: InputValidationError[],
+    description = 'Input validation Error'
+  ) {
+    super(
+      'UNPROCESSABLE ENTITY',
+      HttpStatusCode.UNPROCESSABLE_ENTITY,
+      description,
+      true
+    )
     this.errors = errors
   }
 }

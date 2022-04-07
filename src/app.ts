@@ -4,10 +4,9 @@ import express, { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import expressRequestId from 'express-request-id'
 import log from './logger'
-import { getAll, getUser, createUser } from './serviceHandlers/userHandler'
-import asyncMiddleware from './utils/asyncMiddleware'
 import responseTime from 'response-time'
 import errorHandler from './errorHandlers/errorHandler'
+import { router as userRouter } from './routes/user.route'
 import { HTTP404Error } from './errorHandlers/baseError'
 
 const app = express()
@@ -35,23 +34,7 @@ app.get('/test', (req, res) => {
   res.json({ message: 'Pass!' })
 })
 
-app.get('/user/', asyncMiddleware(async (req: Request, res: Response) => {
-  req.log.info('handling user request')
-  const response = await getAll()
-  res.send(response)
-}))
-
-app.get('/user/:id', asyncMiddleware(async (req: Request, res: Response) => {
-  req.log.info(req.body, 'handling user request')
-  const response = await getUser(req.params.id)
-  res.send(response)
-}))
-
-app.post('/user', asyncMiddleware(async (req: Request, res: Response) => {
-  req.log.info(req.body, 'handling user request')
-  const response = await createUser(req.body)
-  res.send(response)
-}))
+app.use('/user/', userRouter)
 
 app.use(function (_req: Request, res: Response, _next: NextFunction) {
   res.status(404).send("Sorry can't find that!")
