@@ -16,7 +16,7 @@ const dbConfig: ConnectionOptions = {
     'src/migration/**/*.ts'
   ],
   logging: ['error', 'warn'],
-  synchronize: false,
+  synchronize: true,
   cli: {
     migrationsDir: 'src/migration'
   }
