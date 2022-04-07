@@ -7,10 +7,12 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=boilerplate-main
+    ports:
+      - "5432:5432"
     expose:
       - 5432
     networks:
-      - default
+      - boilerplate
 
   boilerplate-service:
     build: 
@@ -28,8 +30,6 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=boilerplate-main
-    env_file:
-      - .env
     ports:
       - "3000:3000"
     expose:
@@ -37,9 +37,9 @@ services:
     depends_on:
       - postgres
     networks:
-      - default
+      - boilerplate
 networks:
-  default:
+  boilerplate:
     driver: bridge
     ipam:
       driver: default

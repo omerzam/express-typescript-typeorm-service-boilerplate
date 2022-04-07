@@ -10,7 +10,7 @@ services:
     expose:
       - 5432
     networks:
-      - default
+      - boilerplate
 
   boilerplate-service:
     image: boilerplate-service
@@ -21,10 +21,10 @@ services:
     expose:
       - "3000"
     networks:
-      - default
+      - boilerplate
 
 networks:
-  default:
+  boilerplate:
     driver: bridge
     ipam:
       driver: default
