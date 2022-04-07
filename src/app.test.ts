@@ -10,6 +10,6 @@ describe('GET /', () => {
   it('responds to GET / request', async () => {
     const result = await request(app).get('/').send()
     expect(result.status).toBe(200)
-    expect(result.text).toBe(' boilerplate Service Running.')
+    expect(result.text).toBe('boilerplate Service Running.')
   })
 })

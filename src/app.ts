@@ -4,7 +4,6 @@ import express, { NextFunction, Request, Response } from 'express'
 import helmet from 'helmet'
 import expressRequestId from 'express-request-id'
 import log from './logger'
-import { helloHandler } from './serviceHandlers/helloHandler'
 import { getAll, getUser, createUser } from './serviceHandlers/userHandler'
 import asyncMiddleware from './utils/asyncMiddleware'
 import responseTime from 'response-time'
@@ -35,12 +34,6 @@ app.get('/test', (req, res) => {
   req.log.info(req, 'test')
   res.json({ message: 'Pass!' })
 })
-
-app.post('/hello', asyncMiddleware(async (req: Request, res: Response) => {
-  req.log.info(req, 'handling request for Hello ')
-  const response = await helloHandler(req.body)
-  res.send(response)
-}))
 
 app.get('/user/', asyncMiddleware(async (req: Request, res: Response) => {
   req.log.info('handling user request')
