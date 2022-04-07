@@ -1,0 +1,45 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:10.5-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=boilerplate-main
+    expose:
+      - 5432
+    networks:
+      - default
+
+  boilerplate-service:
+    build: 
+      context: ./
+      dockerfile: Dockerfile-dev
+    volumes:
+        - ./:/app
+    working_dir: /app
+    environment:
+      - APP_NAME=
+      - LOG_LEVEL=debug
+      - PORT=3000
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=boilerplate-main
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    depends_on:
+      - postgres
+    networks:
+      - default
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default

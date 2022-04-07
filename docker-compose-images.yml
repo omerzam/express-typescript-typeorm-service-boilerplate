@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  postgres:
+    image: postgres:10.5-alpine
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=boilerplate-main
+    expose:
+      - 5432
+    networks:
+      - default
+
+  boilerplate-service:
+    image: boilerplate-service
+    environment:
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - default
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      driver: default
