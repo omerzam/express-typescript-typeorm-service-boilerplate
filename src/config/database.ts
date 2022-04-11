@@ -1,8 +1,9 @@
 import { ConnectionOptions } from 'typeorm'
 import { User } from '../entity'
 
-import config from './config'
-const { postgresHost, postgresPort, postgresUser, postgresPassword, postgresDatabase } = config
+import config, { Environment } from './config'
+
+const { postgresHost, postgresPort, postgresUser, postgresPassword, postgresDatabase, env } = config
 
 const dbConfig: ConnectionOptions = {
   type: 'postgres',
@@ -16,7 +17,7 @@ const dbConfig: ConnectionOptions = {
     'src/migration/**/*.ts'
   ],
   logging: ['error', 'warn'],
-  synchronize: true,
+  synchronize: env === Environment.Development,
   cli: {
     migrationsDir: 'src/migration'
   }
